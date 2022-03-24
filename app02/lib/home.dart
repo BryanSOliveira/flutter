@@ -9,7 +9,19 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   TextEditingController quantidadePessoasController = TextEditingController();
-  String quantidadePessoas = "0";
+  int quantidadePessoas = 0;
+
+  void _incrementarPessoas() {
+    setState(() {
+      quantidadePessoas++;
+    });
+  }
+
+  void _decrementarPessoas() {
+    setState(() {
+      if (quantidadePessoas > 0) quantidadePessoas--;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,43 +41,75 @@ class _HomeState extends State<Home> {
   }
 
   _corpo() {
-    return SingleChildScrollView(
-      padding: EdgeInsets.fromLTRB(10.0, 0, 10.0, 0.0),
+    return Container(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          _botao(),
+          _contador(),
+          _acoes(),
         ],
       ),
     );
   }
 
-  _botao() {
+  _contador() {
     return Container(
       padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        //height: 50.0,
         children: <Widget>[
-          _buttonQuantidade(quantidadePessoas),
+          _botaoQuantidade(),
         ],
       ),
     );
   }
 
-  _buttonQuantidade(quantidadePessoas) {
+  _botaoQuantidade() {
     return RaisedButton(
-      color: Colors.green,
       onPressed: null,
-      //onPressed: () {
-      //print("Okay!");
-      //},
-      child: Text(
-        quantidadePessoas,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 20,
-        ),
+      child: _texto(quantidadePessoas.toString()),
+    );
+  }
+
+  _acoes() {
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          _botaoIncrementar(),
+          _botaoDecrementar(),
+        ],
+      ),
+    );
+  }
+
+  _botaoIncrementar() {
+    return Container(
+      padding: EdgeInsets.only(left: 10.0, right: 10.0),
+      child: RaisedButton(
+        onPressed: _incrementarPessoas,
+        color: Colors.green,
+        child: _texto('+'),
+      ),
+    );
+  }
+
+  _botaoDecrementar() {
+    return Container(
+      padding: EdgeInsets.only(left: 10.0, right: 10.0),
+      child: RaisedButton(
+        onPressed: _decrementarPessoas,
+        color: Colors.red,
+        child: _texto('-'),
+      ),
+    );
+  }
+
+  _texto(textoParaExibir) {
+    return Text(
+      textoParaExibir,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 20,
       ),
     );
   }
