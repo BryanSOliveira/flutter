@@ -16,11 +16,20 @@ class _HomeState extends State<Home> {
   String sexo = "Selecione um sexo";
   String infoResultado = "";
   String escolaridade = "Selecione sua escolaridade";
+  int valorLimite = 0;
+  bool ehBrasileiro = false;
 
-  void _calcularMultiplicacao() {
+  void _exibirInformacoes() {
     setState(() {
       nome = n1Controller.text;
       idade = int.parse(n2Controller.text);
+      if (infoResultado != "") infoResultado = "";
+      infoResultado += "Nome: $nome\n";
+      infoResultado += "Idade: $idade\n";
+      infoResultado += "Sexo: $sexo\n";
+      infoResultado += "Escolaridade: $escolaridade\n";
+      infoResultado += "Limite: $valorLimite\n";
+      infoResultado += "Brasileiro: $ehBrasileiro\n";
     });
   }
 
@@ -51,6 +60,10 @@ class _HomeState extends State<Home> {
           _campoNumber("Idade", n2Controller),
           _campoDropdownSexo(),
           _campoDropdownEscolaridade(),
+          _texto('Limite:'),
+          _campoSliderLimite(),
+          _texto('Brasileiro:'),
+          _campoBrasileiroSwitch(),
           _botao(),
           _texto(infoResultado),
         ],
@@ -135,13 +148,41 @@ class _HomeState extends State<Home> {
     );
   }
 
+  _campoSliderLimite() {
+    return Slider(
+      value: valorLimite.toDouble(),
+      min: 0,
+      max: 100,
+      divisions: 100,
+      label: valorLimite.round().toString(),
+      onChanged: (double value) {
+        setState(() {
+          valorLimite = value.round();
+        });
+      },
+    );
+  }
+
+  _campoBrasileiroSwitch() {
+    return Switch(
+      value: ehBrasileiro,
+      onChanged: (value) {
+        setState(() {
+          ehBrasileiro = value;
+        });
+      },
+      activeTrackColor: Colors.lightGreenAccent,
+      activeColor: Colors.blue,
+    );
+  }
+
   _botao() {
     return Padding(
       padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
       child: Container(
         height: 50.0,
         child: RaisedButton(
-          onPressed: _calcularMultiplicacao,
+          onPressed: _exibirInformacoes,
           child: Text("Confirmar",
               style: TextStyle(color: Colors.white, fontSize: 20.0)),
           color: Colors.purple,
@@ -154,7 +195,7 @@ class _HomeState extends State<Home> {
     return Text(
       textoParaExibir,
       textAlign: TextAlign.center,
-      style: TextStyle(color: Colors.red, fontSize: 25.0),
+      style: TextStyle(fontSize: 25.0),
     );
   }
 }
