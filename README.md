@@ -8,4 +8,5 @@
 4. Alcool ou gasolina
 5. Cálculo do IMC
 6. Jogo do número aleatório
-7. Abertura de Conta
+7. Formulário de abertura de conta bancária
+8. Anúncios para venda de produtos
