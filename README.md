@@ -12,3 +12,6 @@
 08. Anúncios para venda de produtos
 09. Vagas de emprego de TI
 10. Conversor de moedas - Real, dólar, euro e bitcoin
+11. Formulário de abertura de conta bancária com duas telas
+12. Meu Perfil com Drawer Navigation
+13. Meu perfil com Bottom Navigation Bar

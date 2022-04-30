@@ -52,8 +52,8 @@ class _HomeState extends State<Home> {
             ListTile(
               //leading: Icon(Icons.star),
               title: Text('Formação'),
-              subtitle: Text('Tela Formação do App'),
-              trailing: Icon(Icons.account_box_outlined),
+              subtitle: Text('Tela de Formação do App'),
+              trailing: Icon(Icons.book),
               onTap: () {
                 setState(() {
                   _currentPage = 1;
@@ -79,9 +79,9 @@ class _HomeState extends State<Home> {
 
   _titulo() {
     return AppBar(
-      title: Text("App MacGyver"),
+      title: Text("Meu perfil"),
       centerTitle: true,
-      backgroundColor: Colors.green,
+      backgroundColor: Colors.blue,
     );
   }
 }
