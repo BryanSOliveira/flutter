@@ -7,6 +7,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    pegarEstadoDia();
+    pegarEstadoFonte();
+  }
+
   String _textoSalvo = "Nada salvo!";
   bool dia = true;
   bool pequeno = true;
@@ -41,12 +49,41 @@ class _HomeState extends State<Home> {
 
   _blocoFrase() {
     return Container(
-      color: Colors.grey,
+      padding: EdgeInsets.all(10),
+      color: dia ? Colors.white : Colors.black26,
       child: Text(
         '"A vingança nunca é plena, mata a alma e envenena" (Seu Madruga)',
-        style: TextStyle(fontSize: 20),
+        style: TextStyle(fontSize: pequeno ? 15 : 30),
       ),
     );
+  }
+
+  Future<bool> salvarEstadoDia(bool estado) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("dia", dia);
+    return prefs.setBool("dia", dia);
+  }
+
+  Future<bool> pegarEstadoDia() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      dia = prefs.getBool("dia") == true;
+    });
+    return dia;
+  }
+
+  Future<bool> salvarEstadoFonte(bool pequeno) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("pequeno", pequeno);
+    return prefs.setBool("pequeno", pequeno);
+  }
+
+  Future<bool> pegarEstadoFonte() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      pequeno = prefs.getBool("pequeno") == true;
+    });
+    return pequeno;
   }
 
   @override
@@ -66,15 +103,11 @@ class _HomeState extends State<Home> {
                 Switch(
                   value: dia,
                   onChanged: (value) {
-                    setState(() async {
+                    setState(() {
                       dia = value;
-                      final prefs = await SharedPreferences.getInstance();
-                      await prefs.setString("dia", dia.toString());
-                      print('Aqui: $dia');
+                      salvarEstadoDia(value);
                     });
                   },
-                  activeTrackColor: Colors.lightGreenAccent,
-                  activeColor: Colors.blue,
                 ),
                 Text('Pequeno'),
                 Switch(
@@ -82,44 +115,13 @@ class _HomeState extends State<Home> {
                   onChanged: (value) {
                     setState(() {
                       pequeno = value;
+                      salvarEstadoFonte(pequeno);
                     });
                   },
-                  activeTrackColor: Colors.lightGreenAccent,
-                  activeColor: Colors.blue,
                 ),
               ],
             ),
             _blocoFrase(),
-            TextField(
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(labelText: "Digite seu nome"),
-              controller: _controllerCampo,
-            ),
-            Row(
-              children: <Widget>[
-                RaisedButton(
-                  color: Colors.blue,
-                  textColor: Colors.white,
-                  padding: EdgeInsets.all(15),
-                  child: Text("Salvar", style: TextStyle(fontSize: 15)),
-                  onPressed: _salvar,
-                ),
-                RaisedButton(
-                  color: Colors.blue,
-                  textColor: Colors.white,
-                  padding: EdgeInsets.all(15),
-                  child: Text("Recuperar", style: TextStyle(fontSize: 15)),
-                  onPressed: _recuperar,
-                ),
-                RaisedButton(
-                  color: Colors.blue,
-                  textColor: Colors.white,
-                  padding: EdgeInsets.all(15),
-                  child: Text("Remover", style: TextStyle(fontSize: 15)),
-                  onPressed: _remover,
-                ),
-              ],
-            )
           ],
         ),
       ),

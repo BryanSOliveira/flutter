@@ -15,3 +15,6 @@
 11. Formulário de abertura de conta bancária com duas telas
 12. Meu Perfil com Drawer Navigation
 13. Meu perfil com Bottom Navigation Bar
+14. Visualização de Frase com Preferências do Usuário
+15. Lista de Tarefas
+16. Lista de Compras

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:app15/helper/TarefaHelper.dart';
-import 'package:app15/model/Tarefa.dart';
+import 'package:app16/helper/AnotacaoHelper.dart';
+import 'package:app16/model/Anotacao.dart';
 import 'package:intl/intl.dart';
 
 class Home extends StatefulWidget {
@@ -10,6 +10,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   TextEditingController _tituloController = TextEditingController();
+  TextEditingController _descricaoController = TextEditingController();
   var _db = AnotacaoHelper();
   List<Anotacao> _anotacoes = List<Anotacao>();
 
@@ -18,10 +19,12 @@ class _HomeState extends State<Home> {
     if (anotacao == null) {
       //salvando
       _tituloController.text = "";
+      _descricaoController.text = "";
       textoSalvarAtualizar = "Salvar";
     } else {
       //atualizar
       _tituloController.text = anotacao.titulo;
+      _descricaoController.text = anotacao.descricao;
       textoSalvarAtualizar = "Atualizar";
     }
 
@@ -29,7 +32,7 @@ class _HomeState extends State<Home> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text("$textoSalvarAtualizar tarefa"),
+            title: Text("$textoSalvarAtualizar anotação"),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -37,9 +40,14 @@ class _HomeState extends State<Home> {
                   controller: _tituloController,
                   autofocus: true,
                   decoration: InputDecoration(
-                    labelText: "Nome da Tarefa",
-                  ),
+                      labelText: "Mercadoria",
+                      hintText: "Digite um produto..."),
                 ),
+                TextField(
+                  controller: _descricaoController,
+                  decoration: InputDecoration(
+                      labelText: "Quantidade", hintText: "Digite descrição..."),
+                )
               ],
             ),
             actions: <Widget>[
@@ -78,18 +86,21 @@ class _HomeState extends State<Home> {
 
   _salvarAtualizarAnotacao({Anotacao anotacaoSelecionada}) async {
     String titulo = _tituloController.text;
+    String descricao = _descricaoController.text;
 
     if (anotacaoSelecionada == null) {
       //salvar
-      Anotacao anotacao = Anotacao(titulo);
+      Anotacao anotacao = Anotacao(titulo, descricao);
       int resultado = await _db.salvarAnotacao(anotacao);
     } else {
       //atualizar
       anotacaoSelecionada.titulo = titulo;
+      anotacaoSelecionada.descricao = descricao;
       int resultado = await _db.atualizarAnotacao(anotacaoSelecionada);
     }
 
     _tituloController.clear();
+    _descricaoController.clear();
 
     _recuperarAnotacoes();
   }
@@ -110,7 +121,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tarefas"),
+        title: Text("Lista de Compras"),
         backgroundColor: Colors.lightGreen,
       ),
       body: Column(
@@ -123,7 +134,8 @@ class _HomeState extends State<Home> {
 
                     return Card(
                       child: ListTile(
-                        title: Text(anotacao.titulo),
+                        title:
+                            Text("${anotacao.titulo} (${anotacao.descricao})"),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[

@@ -1,7 +1,6 @@
+import 'package:app16/model/Anotacao.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-
-import '../model/Anotacao.dart';
 
 class AnotacaoHelper {
   static final String nomeTabela = "anotacao";
@@ -28,7 +27,7 @@ class AnotacaoHelper {
     String sql = "CREATE TABLE $nomeTabela ("
         "id INTEGER PRIMARY KEY AUTOINCREMENT, "
         "titulo VARCHAR, "
-        "descricao TEXT, "
+        "quantidade TEXT, "
         "data DATETIME)";
     await db.execute(sql);
   }
@@ -51,7 +50,7 @@ class AnotacaoHelper {
 
   recuperarAnotacoes() async {
     var bancoDados = await db;
-    String sql = "SELECT * FROM $nomeTabela ORDER BY data DESC ";
+    String sql = "SELECT * FROM $nomeTabela";
     List anotacoes = await bancoDados.rawQuery(sql);
     return anotacoes;
   }
