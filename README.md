@@ -18,3 +18,6 @@
 14. Visualização de Frase com Preferências do Usuário
 15. Lista de Tarefas
 16. Lista de Compras
+17. Consulta de CEP
+18. Perfil de Devs
+19. Conversor de moedas (API)
