@@ -21,3 +21,7 @@
 17. Consulta de CEP
 18. Perfil de Devs
 19. Conversor de moedas (API)
+20. App de Filmes
+21. App de Cadastro de Tarefas
+22. App de Cadastro de Tarefas customizado
+23. App para confecção de Crachás de Empresa
